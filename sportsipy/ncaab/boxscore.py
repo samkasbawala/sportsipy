@@ -385,9 +385,15 @@ class Boxscore:
         string
             A string of the team's record in the format 'Team Name (W-L)'.
         """
-        records = boxscore(BOXSCORE_SCHEME[field]).items()
-        records = [x.text() for x in records if x.text() != '']
-        return records[index]
+
+        # https://github.com/roclark/sportsipy/issues/595#issuecomment-798752153
+        records = boxscore(BOXSCORE_SCHEME[field])
+        records = [x.text for x in records if x.text != ''] 
+        
+        if len(records) > index:
+            return records[index]
+        else:
+            return ''
 
     def _find_boxscore_tables(self, boxscore):
         """
